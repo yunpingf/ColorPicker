@@ -1,0 +1,63 @@
+<html ng-app="ColorWheel" ng-csp>
+	<head>
+		<title>Color Picker</title>
+		<meta charset="utf-8">
+	    <script src="scripts/jquery.min.js"></script>
+	    <script src="scripts/angular.min.js"></script>
+	    <script src="scripts/bootstrap.min.js"></script>
+	    <script src="scripts/app.js"></script>
+	    <script src="scripts/controllers/ColorWheelController.js"></script>
+	    <link rel="stylesheet" type="text/css" href="styles/bootstrap.min.css" />
+	    <link rel="stylesheet" type="text/css" href="styles/main.css" />
+	</head>
+
+	<body>
+
+		<div id="container">
+      		<div id="display" class="calc-display">
+      			<div class="button-row" style="background-color:#a18a73;flex-basis: 47%">
+      				<div class="rest-block-top"></div>
+      				<div class="color-block">
+      					<div class="color-tag"></div>
+      					<div class="color-name">
+      						<div class="button-row" data-toggle="tooltip" title="RGB">
+      							<input class="button-column" placeholder="R"></input>
+      							<input class="button-column" placeholder="G"></input>
+      							<input class="button-column" placeholder="B"></input>
+      						</div>
+      						<div class="button-row" data-toggle="tooltip" title="HEX">
+      							<input class="button-column" placeholder="HEX"></input>
+      						</div>
+      					</div>
+      				</div>
+      			</div>
+      			<div class="button-row" style="flex-basis: 6%;min-height:18px">Complementary</div>
+      			<div class="button-row" style="background-color:#72719e;flex-basis: 47%">
+      				<div class="rest-block-bottom"></div>
+      				<div class="color-block"></div>
+      				<div class="color-block"></div>
+      				<div class="color-block"></div>
+      			</div>
+      		</div>
+		    <div id="buttons" class="button-row">
+		    	<div class="button-column" style="flex-basis: 200%">
+		    		<canvas id="colorWheel"></canvas>
+		    	</div>
+		        <div class="button-column" style="flex-basis: 100%">
+					<div class="button-row">
+						<div class="calc-button seven">7</div>
+						<div class="calc-button eight">8</div>
+					</div>
+					<div class="button-row">
+						<div class="calc-button four">4</div>
+						<div class="calc-button five">5</div>
+					</div>
+					<div class="button-row">
+						<div class="calc-button one">1</div>
+						<div class="calc-button two">2</div>
+					</div>
+		        </div>
+		    </div>
+		</div>
+	</body>
+</html>
