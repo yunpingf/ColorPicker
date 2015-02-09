@@ -33,8 +33,11 @@ function drawColorWheel() {
             k += 4;
         }
     }
-	context.putImageData(imageDataObj, 0, 0);
-}
+	context.putImageData(imageDataObj, 0, 0); // module declaration
+};
+
+angular.module('ColorWheel', []);
+
 $(document).ready(function () {
 	$('[data-toggle="tooltip"]').tooltip({'placement': 'top'});
 	drawColorWheel();

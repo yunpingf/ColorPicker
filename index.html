@@ -6,14 +6,15 @@
 	    <script src="scripts/angular.min.js"></script>
 	    <script src="scripts/bootstrap.min.js"></script>
 	    <script src="scripts/app.js"></script>
+	    <script src="scripts/constants.js"></script>
+	    <script src="scripts/services/ColorWheelService.js"></script>
 	    <script src="scripts/controllers/ColorWheelController.js"></script>
 	    <link rel="stylesheet" type="text/css" href="styles/bootstrap.min.css" />
 	    <link rel="stylesheet" type="text/css" href="styles/main.css" />
 	</head>
 
 	<body>
-
-		<div id="container">
+		<div id="container" ng-controller="ColorWheelController">
       		<div id="display" class="calc-display">
       			<div class="button-row" style="background-color:#a18a73;flex-basis: 47%">
       				<div class="rest-block-top"></div>
@@ -41,20 +42,11 @@
       		</div>
 		    <div id="buttons" class="button-row">
 		    	<div class="button-column" style="flex-basis: 200%">
-		    		<canvas id="colorWheel"></canvas>
+		    		<canvas id="colorWheel" ng-mousemove="onMouseMove($event)"></canvas>
 		    	</div>
-		        <div class="button-column" style="flex-basis: 100%">
-					<div class="button-row">
-						<div class="calc-button seven">7</div>
-						<div class="calc-button eight">8</div>
-					</div>
-					<div class="button-row">
-						<div class="calc-button four">4</div>
-						<div class="calc-button five">5</div>
-					</div>
-					<div class="button-row">
-						<div class="calc-button one">1</div>
-						<div class="calc-button two">2</div>
+		        <div class="button-column" style="flex-basis: 100%" >
+					<div class="button-row" ng-repeat= "choice in choices">
+						<div class="calc-button" ng-repeat = "c in choice">{{c.src}}</div>
 					</div>
 		        </div>
 		    </div>
