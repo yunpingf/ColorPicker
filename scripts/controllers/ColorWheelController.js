@@ -3,6 +3,7 @@ angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'Colo
     var leftOffset = canvas.offset().left;
     var topOffset = canvas.offset().top;
     $scope.spice = 'very';
+    $scope.mouseDown = false;
     $scope.choices = [
     	[{src: "1", value: constants.getMono()}, {src: "2", value: constants.getComple()}],
     	[{src: "3", value: constants.getSplit()}, {src: "4", value: constants.getDouble()}],
@@ -12,9 +13,23 @@ angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'Colo
     $scope.chooseComposeType = function(type) {
     	ColorWheelService.setComposeType(type);
     };
+
+    $scope.onMouseDown = function($event) {
+    	$scope.mouseDown = true;
+    	console.log("- -");
+    	ColorWheelService.drawPointer($event.offsetX, $event.offsetY);
+    };
+
+    $scope.onMouseUp = function($event) {
+    	$scope.mouseDown = false;
+    	console.log("-!!");
+    };
+
     $scope.onMouseMove = function($event) {
-    	console.log($event.offsetX+ " "+canvas.offset().left+" "+canvas.width());
-    	ColorWheelService.consoleLog();
+    	if ($scope.mouseDown) {
+    		console.log($event.offsetX+ " "+canvas.offset().left+" "+canvas.width());
+    		ColorWheelService.drawPointer($event.offsetX, $event.offsetY);
+    	}
     };
 
     $scope.chiliSpicy = function() {

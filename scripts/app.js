@@ -33,7 +33,16 @@ function drawColorWheel() {
             k += 4;
         }
     }
+    
 	context.putImageData(imageDataObj, 0, 0); // module declaration
+    context.beginPath();
+    context.arc(centerX, centerY, r, 0, 2 * Math.PI, false);
+    context.lineWidth = 2;
+    context.strokeStyle = '#696969';
+    context.stroke();
+    /*var injector = angular.element(document).injector();
+    var service = injector.get('ColorWheelService');
+    service.consoleLog();*/
 };
 
 angular.module('ColorWheel', []);

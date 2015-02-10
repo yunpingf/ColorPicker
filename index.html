@@ -41,12 +41,15 @@
       			</div>
       		</div>
 		    <div id="buttons" class="button-row">
+		    	<div class="pointer-outer">
+		    		<span id="colorpicker" ng-mouseup="onMouseUp($event)"></span>
+		    	</div>
 		    	<div class="button-column" style="flex-basis: 200%">
-		    		<canvas id="colorWheel" ng-mousemove="onMouseMove($event)"></canvas>
+		    		<canvas id="colorWheel" class="pointer-outer"  ng-mousemove="onMouseMove($event)" ng-mousedown="onMouseDown($event)"/>
 		    	</div>
 		        <div class="button-column" style="flex-basis: 100%" >
 					<div class="button-row" ng-repeat= "choice in choices">
-						<div class="calc-button" ng-repeat = "c in choice">{{c.src}}</div>
+						<div class="calc-button" ng-repeat = "c in choice" ng-click = "chooseComposeType(c.value)">{{c.src}}</div>
 					</div>
 		        </div>
 		    </div>

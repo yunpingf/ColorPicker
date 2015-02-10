@@ -12,6 +12,17 @@ body {
   width: 100%;
   height: 100%;
 }
+.pointer-outer {
+  position: relative;
+
+}
+#colorpicker {
+  border: 2px solid black;
+  position: absolute;
+  top: 118.562602409475px;
+  left: 119.606881235621px;
+  z-index: 2;
+}
 
 ::-webkit-scrollbar {
   display: none;
