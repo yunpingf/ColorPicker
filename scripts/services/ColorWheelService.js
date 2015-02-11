@@ -41,6 +41,10 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
 
 	};
 
+	this.setMainGrey = function(i) {
+
+	};
+
 	this.drawPointer = function(x, y) {
 		$("#colorpicker").css({top:y, left: x});
 	};
@@ -49,6 +53,17 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
 		if (type == constant.getMono) {
 
 		}
+	};
+
+	function decToHex(num) { //decimal num in string
+		var hex = parseInt(num).toString(16).toUpperCase();
+		return hex.length == 1? "0"+hex: hex;
+	};
+
+	this.rgbToHex = function(color) {
+		return "#" + decToHex(color.r) +
+				decToHex(color.g) +
+				decToHex(color.b);
 	};
 
 	this.drawColorWheel = function() {

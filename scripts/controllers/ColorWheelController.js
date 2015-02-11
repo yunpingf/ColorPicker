@@ -9,9 +9,8 @@ angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'Colo
     	[{src: "5", value: constants.getAnalog()}, {src: "6", value: constants.getTriad()}]
     ];
     $scope.composeType = constants.getMono();
-    $scope.mainR = 0;
-    $scope.mainG = 0;
-    $scope.mainB = 0;
+    $scope.mainColor = {r:"255", g:"255", b:"255"};
+    $scope.mainColorHex = "#FFFFFF";
 
     $scope.chooseComposeType = function(type) {
     	$scope.composeType = type;
@@ -21,6 +20,7 @@ angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'Colo
     $scope.onMouseDown = function($event) {
     	$scope.mouseDown = true;
     	ColorWheelService.drawPointer($event.offsetX, $event.offsetY);
+
     };
 
     $scope.onMouseUp = function($event) {
@@ -31,6 +31,29 @@ angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'Colo
     	if ($scope.mouseDown) {
     		//console.log($event.offsetX+ " "+canvas.offset().left+" "+canvas.width());
     		ColorWheelService.drawPointer($event.offsetX, $event.offsetY);
+    	}
+    };
+
+    $scope.invalidRGB = function(rgb) {
+    	if (parseInt(rgb) != NaN && rgb >= 0 && rgb <= 255)
+    		return false;
+    	else 
+    		return true;
+    };
+
+
+    $scope.updateMain = function(pos) { // when the input value is changed
+    	if (!$scope.invalidRGB($scope.mainColor[pos])) {
+    		if ($scope.mainColor[pos] == "") {
+    			var checkColor = {};
+    			checkColor.r = $scope.mainColor.r;
+    			checkColor.g = $scope.mainColor.g;
+    			checkColor.b = $scope.mainColor.b;
+    			checkColor[pos] = "0";
+    		}
+    		else {
+    			$scope.mainColorHex = ColorWheelService.rgbToHex($scope.mainColor);
+    		}
     	}
     };
 }]);
