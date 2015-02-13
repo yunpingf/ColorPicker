@@ -5,6 +5,9 @@ var constants = new (function() {
     var DOUBLE_COMPLEMENTARY = "DoubleComplementary";
     var ANALOGOUS = "Analogous";
     var TRIAD = "Triad";
+    var ONE = "one";
+    var TWO = "two";
+    var THREE = "three";
 
     this.getMono = function() { return MONOCHROMATIC; };
     this.getComple = function() {return COMPLEMENTARY};
@@ -12,4 +15,8 @@ var constants = new (function() {
     this.getDouble = function() {return DOUBLE_COMPLEMENTARY};
     this.getAnalog = function() {return ANALOGOUS};
     this.getTriad = function() {return TRIAD};
+
+    this.getOne = function() {return ONE};
+    this.getTwo = function() {return TWO};
+    this.getThree = function() {return THREE};
 })();

@@ -14,7 +14,7 @@
 	</head>
 
 	<body>
-		<div id="container" ng-controller="ColorWheelController">
+		<div id="container" ng-controller="ColorWheelController" ng-mouseup="onMouseUp($event)">
       		<div id="display" class="calc-display">
       			<div class="button-row" style="background-color:#a18a73;flex-basis: 47%">
       				<div class="rest-block-top"></div>
@@ -37,15 +37,15 @@
       			</div>
       			<div class="button-row" style="flex-basis: 6%;min-height:18px">{{composeType}}</div>
       			<div class="button-row" style="background-color:#72719e;flex-basis: 47%">
-      				<div class="rest-block-bottom"></div>
-      				<div class="color-block"></div>
-      				<div class="color-block"></div>
+      				<div class="rest-block-bottom-{{colorShown}}"></div>
+      				<div class="color-block" ng-class="{'hide': colorShown != 'three'}"></div>
+      				<div class="color-block" ng-class="{'hide': colorShown == 'one'}"></div>
       				<div class="color-block"></div>
       			</div>
       		</div>
 		    <div id="buttons" class="button-row">
 		    	<div class="pointer-outer">
-		    		<span id="colorpicker" ng-mouseup="onMouseUp($event)"></span>
+		    		<span id="colorpicker"></span>
 		    	</div>
 		    	<div class="button-column" style="flex-basis: 200%">
 		    		<canvas id="colorWheel" class="pointer-outer"  ng-mousemove="onMouseMove($event)" ng-mousedown="onMouseDown($event)"/>

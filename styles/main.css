@@ -22,6 +22,8 @@ body {
   top: 118.562602409475px;
   left: 119.606881235621px;
   z-index: 2;
+  padding: 2px;
+  border-radius: 8px;
 }
 
 ::-webkit-scrollbar {
@@ -42,7 +44,7 @@ body {
   height: 100%;
 }
 #container #display{
-  flex: 1 1 100%;
+  flex: 1 1 90%;
   border: none;
   letter-spacing: 1px;
   line-height: 20px;
@@ -90,8 +92,15 @@ body {
   font-size:12px;
 }
 
-.rest-block-bottom {
+.rest-block-bottom-three {
   flex: 1 1 90%;
+}
+
+.rest-block-bottom-two{
+  flex: 1 1 190%;
+}
+.rest-block-bottom-one {
+  flex: 1 1 290%;
 }
 
 .button-row {
