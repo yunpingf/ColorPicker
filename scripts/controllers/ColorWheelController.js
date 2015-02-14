@@ -9,10 +9,12 @@ angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'Colo
     	[{src: "5", value: constants.getAnalog()}, {src: "6", value: constants.getTriad()}]
     ];
     $scope.composeType = constants.getMono();
-    $scope.mainColor = {r:"255", g:"255", b:"255"};
-    $scope.mainColorHex = "#FFFFFF";
+    $scope.mainColor = {r:"255", g:"255", b:"255", v:"100", "hex":"#FFFFFF"};
+    $scope.thirdColor = {r:"255", g:"255", b:"255", v:"100", "hex":"#FFFFFF"};
+    $scope.secondColor = {r:"255", g:"255", b:"255", v:"100", "hex":"#FFFFFF"};
+    $scope.firstColor = {r:"255", g:"255", b:"255", v:"100", "hex":"#FFFFFF"};
 
-    $scope.colorShown = constants.getOne();
+    $scope.colorShown = constants.getThree();
 
     $scope.chooseComposeType = function(type) {
     	$scope.composeType = type;
@@ -62,7 +64,7 @@ angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'Colo
     			checkColor[pos] = "0";
     		}
     		else {
-    			$scope.mainColorHex = ColorWheelService.rgbToHex($scope.mainColor);
+    			$scope.mainColor.hex = ColorWheelService.rgbToHex($scope.mainColor);
     		}
     	}
     };

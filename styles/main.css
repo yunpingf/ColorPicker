@@ -80,11 +80,13 @@ body {
 .color-tag {
   flex:1 1 100%;
   background-color: purple;
+  position: relative;
+  border: 1px solid #696969;
 }
 .color-name {
   flex:1 1 100%;
-  max-height:45px;
-  min-height:45px;
+  max-height:40px;
+  min-height:40px;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -137,4 +139,30 @@ body {
 
 canvas {
   flex: 1 1 100%;
+}
+
+input[type="range"] {
+  -webkit-appearance: slider-vertical; /* WebKit */
+  height:100px;
+  width: 8px;
+}
+
+.slider {
+  position: absolute;
+  right: 0px;
+  width: 20px;
+  height: 100%;
+  padding-top: 5px;
+  padding-left: 5px;
+  padding-right: 13px;
+  padding-bottom: 2px;
+}
+
+.slider input {
+  height: 100%;
+}
+
+.badge{
+  position: absolute;
+  background-color: transparent;
 }
