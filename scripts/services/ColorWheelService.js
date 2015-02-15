@@ -1,44 +1,18 @@
 angular.module('ColorWheel').service('ColorWheelService', function() {
 	var canvas = $("#colorWheel");
 	var context = canvas.get(0).getContext('2d');
-	var mainColor = {h:0, s:0, v:1};
-	var firstColor = {};
-	var secondColor = {};
-	var thirdColor = {};
 	var composeType = "";
 	var count = 0;
-
-	this.consoleLog = function() {
-		count += 1;
-		console.log(count);
-	};
+	var cache = {};
 
 	this.setComposeType = function(type) {
 		composeType = type;
 	};
 
-	this.setMainColor = function(i, j) {
-		var height = canvas.height();
-	    var width = canvas.width();
-	    var delta = height > width? (width/2) : (height/2);
-	    var centerX = width / 2;
-	    var centerY = height / 2 - delta * 0.15;
-	    var x = i - centerX;
-	    var y = j - centerY;
-
-	    var h = 6 * (Math.atan2(y, x) + Math.PI) / (2 * Math.PI);
-        var s = Math.sqrt(x*x + y*y) / r;
-
-        var g = Math.floor(h);
-        var f = h - g;
-        var u = 255 * (1 - s);
-        var v = 255 * (1 - s * f);
-        var w = 255 * (1 - s * (1 - f));
-
-        var r = [255, v, u, u, w, 255, 255][g];
-        var b =[w, 255, 255, v, u, u, w][g];
-        var g = [u, u, w, 255, 255, v, u][g];
-
+	this.getMainColor = function(i, j) {
+	    var x = i - cache.centerX;
+	    var y = j - cache.centerY;
+	    return getHSVFromRePos(x, y, cache.r);
 	};
 
 	this.setMainGrey = function(i) {
@@ -47,31 +21,14 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
 	};
 
 	this.withinRange = function(x, y) {
-		var height = canvas.height();
-	    var width = canvas.width();
-	    var delta = height > width? (width/2) : (height/2);
-	    var centerX = width / 2;
-	    var centerY = height / 2 - delta * 0.15;
-	    var r = delta*0.8;
-	    return (x - centerX) * (x - centerX) +
-	    	(y - centerY) * (y - centerY) <= r * r;
+	    return (x - cache.centerX) * (x - cache.centerX) +
+	    	(y - cache.centerY) * (y - cache.centerY) <= cache.r * cache.r;
 	};
-
-	this.drawPointer = function(x, y) {
-		$("#colorpicker").css({top:y, left: x});
-		/*if (!out){
-			$("#colorpicker").css({top:y, left: x});
-		}
-		else {
-			//outmost
-		}*/
-	};
-
+	
 	this.calculateColor = function(x, y) {
-		var pos = getCenterR();
-	    var centerX = pos.centerX;
-	    var centerY = pos.centerY;
-	    var r = pos.r;
+	    var centerX = cache.centerX;
+	    var centerY = cache.centerY;
+	    var r = cache.r;
 
 		if (type == constants.getMono()) {
 
@@ -154,6 +111,10 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
 				decToHex(color.b);
 	};
 
+	this.cacheCenterR = function() {
+		cache = getCenterR();
+	};
+
 	function getCenterR () {
 		var height = canvas.height();
 	    var width = canvas.width();
@@ -176,7 +137,7 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
         var w = 255 * (1 - s * (1 - f));
 
         var cr = [255, v, u, u, w, 255, 255][g];
-        var cg =[w, 255, 255, v, u, u, w][g];
+        var cg = [w, 255, 255, v, u, u, w][g];
         var cb = [u, u, w, 255, 255, v, u][g];
 
         return {'h':h, 's':s, 'v':1, 'r':cr, 'g':cg, 'b':cb};

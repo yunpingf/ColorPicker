@@ -14,18 +14,27 @@ body {
 }
 .pointer-outer {
   position: relative;
-
 }
-#colorpicker {
-  border: 2px solid black;
+.picker {
   position: absolute;
-  top: 118.562602409475px;
-  left: 119.606881235621px;
   z-index: 2;
   padding: 2px;
   border-radius: 8px;
 }
+#colorpicker {
+  border: 2px solid black;
+  z-index: 3;
+}
 
+#firstPicker{
+  border: 2px solid #808080;
+}
+#secondPicker {
+  border: 2px solid #808080;
+}
+#thirdPicker {
+  border: 2px solid #808080;
+}
 ::-webkit-scrollbar {
   display: none;
 }
@@ -74,7 +83,6 @@ body {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  background-color: #a19c3e;
 }
 
 .color-tag {
@@ -82,6 +90,8 @@ body {
   background-color: purple;
   position: relative;
   border: 1px solid #696969;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 .color-name {
   flex:1 1 100%;
@@ -135,6 +145,11 @@ body {
 .calc-button:active, .calc-button.active {
   background: linear-gradient(#424242, #4B4B4B);
   box-shadow: inset 1px 1px 0 #141414, inset -1px -1px 0 #636363;
+}
+
+.calc-wheel{
+  background: linear-gradient(#4B4B4B, #424242);
+  box-shadow: inset 1px 1px 0 #636363, inset -1px -1px 0 #141414;
 }
 
 canvas {
