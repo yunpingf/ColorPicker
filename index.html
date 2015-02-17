@@ -19,17 +19,17 @@
       			<div class="button-row" style="flex-basis: 47%">
       				<div class="rest-block-top"></div>
       				<div class="color-block">	
-      					<a class="color-tag" id="mainColor" href style="background-color: {{mainColor.hex}}"><span class="badge">{{mainColor.v}}%</span>
-      						<div class="slider"><input type="range" min="0" max="100" value="100" step="1" ng-model="mainColor.v"/></div>
+      					<a class="color-tag" id="mainColor" href style="background-color: {{mainColor.hex}}"><span class="badge">{{(mainColor.v * 100).toFixed(0)}}%</span>
+      						<div class="slider"><input type="range" min="0" max="1" value="1" step="0.01" ng-model="mainColor.v" ng-mousedown="onRangeDown(0)" ng-mousemove = "onRangeMove()"/></div>
       					</a>
       					<div class="color-name">
       						<div class="button-row" data-toggle="tooltip" title="RGB" style="margin:0px">
-      							<input class="button-column" placeholder="R" ng-model="mainColor.r"
-      								ng-class="{'alert-warning': invalidRGB(mainColor.r)}" ng-change="updateColorInput(0, 'r')"></input>
-      							<input class="button-column" placeholder="G" ng-model="mainColor.g"
-      								ng-class="{'alert-warning': invalidRGB(mainColor.g)}" ng-change="updateColorInput(0, 'g')"></input>
-      							<input class="button-column" placeholder="B" ng-model="mainColor.b"
-      								ng-class="{'alert-warning': invalidRGB(mainColor.b)}" ng-change="updateColorInput(0, 'b')"></input>
+      							<input class="button-column" placeholder="R" ng-model="mainColor.rv"
+      								ng-class="{'alert-warning': invalidRGB(mainColor.rv)}" ng-change="updateColorInput(0, 'rv')"></input>
+      							<input class="button-column" placeholder="G" ng-model="mainColor.gv"
+      								ng-class="{'alert-warning': invalidRGB(mainColor.gv)}" ng-change="updateColorInput(0, 'gv')"></input>
+      							<input class="button-column" placeholder="B" ng-model="mainColor.bv"
+      								ng-class="{'alert-warning': invalidRGB(mainColor.bv)}" ng-change="updateColorInput(0, 'bv')"></input>
       						</div>
       						<div class="button-row" data-toggle="tooltip" title="HEX">
       							<input class="button-column" placeholder="HEX" ng-model="mainColor.hex"></input>
@@ -42,17 +42,17 @@
       			<div class="button-row" style="flex-basis: 47%">
       				<div class="rest-block-bottom-{{colorShown}}"></div>
       				<div class="color-block" ng-class="{'hide': colorShown != 'three'}">
-      					<a class="color-tag" href href style="background-color: {{thirdColor.hex}}"><span class="badge">{{thirdColor.v}}%</span>
+      					<a class="color-tag" href href style="background-color: {{thirdColor.hex}}"><span class="badge">{{thirdColor.v * 100}}%</span>
       						<div class="slider"><input type="range" min="0" max="100" value="100" step="1" ng-model="thirdColor.v"/></div>
       					</a>
       					<div class="color-name">
       						<div class="button-row" data-toggle="tooltip" title="RGB" style="margin:0px">
-      							<input class="button-column" placeholder="R" ng-model="thirdColor.r"
-      								ng-class="{'alert-warning': invalidRGB(thirdColor.r)}" ng-change="updateColorInput(3,'r')"></input>
-      							<input class="button-column" placeholder="G" ng-model="thirdColor.g"
-      								ng-class="{'alert-warning': invalidRGB(thirdColor.g)}" ng-change="updateColorInput(3, 'g')"></input>
-      							<input class="button-column" placeholder="B" ng-model="thirdColor.b"
-      								ng-class="{'alert-warning': invalidRGB(thirdColor.b)}" ng-change="updateColorInput(3, 'b')"></input>
+      							<input class="button-column" placeholder="R" ng-model="thirdColor.rv"
+      								ng-class="{'alert-warning': invalidRGB(thirdColor.rv)}" ng-change="updateColorInput(3,'rv')"></input>
+      							<input class="button-column" placeholder="G" ng-model="thirdColor.gv"
+      								ng-class="{'alert-warning': invalidRGB(thirdColor.gv)}" ng-change="updateColorInput(3, 'gv')"></input>
+      							<input class="button-column" placeholder="B" ng-model="thirdColor.bv"
+      								ng-class="{'alert-warning': invalidRGB(thirdColor.bv)}" ng-change="updateColorInput(3, 'bv')"></input>
       						</div>
       						<div class="button-row" data-toggle="tooltip" title="HEX">
       							<input class="button-column" placeholder="HEX" ng-model="thirdColor.hex"></input>
@@ -60,17 +60,17 @@
       					</div>
       				</div>
       				<div class="color-block" ng-class="{'hide': colorShown == 'one'}">
-      					<a class="color-tag" href href style="background-color: {{secondColor.hex}}"><span class="badge">{{secondColor.v}}%</span>
+      					<a class="color-tag" href href style="background-color: {{secondColor.hex}}"><span class="badge">{{secondColor.v * 100}}%</span>
       						<div class="slider"><input type="range" min="0" max="100" value="100" step="1" ng-model="secondColor.v"/></div>
       					</a>
       					<div class="color-name">
       						<div class="button-row" data-toggle="tooltip" title="RGB" style="margin:0px">
-      							<input class="button-column" placeholder="R" ng-model="secondColor.r"
-      								ng-class="{'alert-warning': invalidRGB(secondColor.r)}" ng-change="updateColorInput(2, 'r')"></input>
-      							<input class="button-column" placeholder="G" ng-model="secondColor.g"
-      								ng-class="{'alert-warning': invalidRGB(secondColor.g)}" ng-change="updateColorInput(2, 'g')"></input>
-      							<input class="button-column" placeholder="B" ng-model="secondColor.b"
-      								ng-class="{'alert-warning': invalidRGB(secondColor.b)}" ng-change="updateColorInput(2, 'b')"></input>
+      							<input class="button-column" placeholder="R" ng-model="secondColor.rv"
+      								ng-class="{'alert-warning': invalidRGB(secondColor.rv)}" ng-change="updateColorInput(2, 'rv')"></input>
+      							<input class="button-column" placeholder="G" ng-model="secondColor.gv"
+      								ng-class="{'alert-warning': invalidRGB(secondColor.gv)}" ng-change="updateColorInput(2, 'gv')"></input>
+      							<input class="button-column" placeholder="B" ng-model="secondColor.bv"
+      								ng-class="{'alert-warning': invalidRGB(secondColor.bv)}" ng-change="updateColorInput(2, 'bv')"></input>
       						</div>
       						<div class="button-row" data-toggle="tooltip" title="HEX">
       							<input class="button-column" placeholder="HEX" ng-model="secondColor.hex"></input>
@@ -78,17 +78,17 @@
       					</div>
       				</div>
       				<div class="color-block">
-      					<a class="color-tag" href href style="background-color: {{firstColor.hex}}"><span class="badge">{{firstColor.v}}%</span>
+      					<a class="color-tag" href href style="background-color: {{firstColor.hex}}"><span class="badge">{{firstColor.v * 100}}%</span>
                                           <div class="slider"><input type="range" min="0" max="100" value="100" step="1" ng-model="firstColor.v"/></div>
                                     </a>
                                     <div class="color-name">
                                           <div class="button-row" data-toggle="tooltip" title="RGB" style="margin:0px">
-                                                <input class="button-column" placeholder="R" ng-model="firstColor.r"
-                                                      ng-class="{'alert-warning': invalidRGB(firstColor.r)}" ng-change="updateColorInput(1, 'r')"></input>
-                                                <input class="button-column" placeholder="G" ng-model="firstColor.g"
-                                                      ng-class="{'alert-warning': invalidRGB(firstColor.g)}" ng-change="updateColorInput(1, 'g')"></input>
-                                                <input class="button-column" placeholder="B" ng-model="firstColor.b"
-                                                      ng-class="{'alert-warning': invalidRGB(firstColor.b)}" ng-change="updateColorInput(1, 'b')"></input>
+                                                <input class="button-column" placeholder="R" ng-model="firstColor.rv"
+                                                      ng-class="{'alert-warning': invalidRGB(firstColor.rv)}" ng-change="updateColorInput(1, 'rv')"></input>
+                                                <input class="button-column" placeholder="G" ng-model="firstColor.gv"
+                                                      ng-class="{'alert-warning': invalidRGB(firstColor.gv)}" ng-change="updateColorInput(1, 'gv')"></input>
+                                                <input class="button-column" placeholder="B" ng-model="firstColor.bv"
+                                                      ng-class="{'alert-warning': invalidRGB(firstColor.bv)}" ng-change="updateColorInput(1, 'bv')"></input>
                                           </div>
                                           <div class="button-row" data-toggle="tooltip" title="HEX">
                                                 <input class="button-column" placeholder="HEX" ng-model="firstColor.hex"></input>

@@ -9,29 +9,73 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
 		composeType = type;
 	};
 
-	this.getMainColor = function(i, j) {
+	this.getMainColor = function(i, j, v) {
 	    var x = i - cache.centerX;
 	    var y = j - cache.centerY;
-	    return getHSVFromRePos(x, y, cache.r);
+	    var color = getHSVFromRePos(x, y, cache.r);
+	    color.x = i;
+	    color.y = j;
+	    color.rv = Math.floor(color.r * v);
+	    color.gv = Math.floor(color.g * v);
+	    color.bv = Math.floor(color.b * v);
+	    color.r = Math.floor(color.r);
+		color.g = Math.floor(color.g);
+		color.b = Math.floor(color.b);
+		color.v = v;
+		color.hex = this.rgbToHex(color);
+		return color;
 	};
 
-	this.setMainGrey = function(i) {
-		
-
+	this.getHSV = function(color){
+		var r = color.rv / 255.0;
+		var g = color.gv / 255.0;
+		var b = color.bv / 255.0;
+		var min = Math.min(r, g, b);
+		var max = Math.max(r, g, b);
+		color.v = max.toFixed(2);
+		var delta = max - min;
+		if (max != 0) {
+			color.s = delta / max;
+			color.r = color.rv / max;
+			color.g = color.gv / max;
+			color.b = color.bv / max;
+		}
+		else {
+			color.s = 0;
+			color.h = 0;
+			color.r = 0;
+			color.g = 0;
+			color.b = 0;
+			return color;
+		}
+		if (r == max)
+			h = (g - b) / delta;
+		else if (g == max)
+			h = 2 + (b - r) / delta;
+		else
+			h = 4 + (r - g) / delta;
+		h *= 60;
+		if (h < 0)
+			h += 360;
+		color.hex = this.rgbToHex(color);
+		return color;
 	};
 
 	this.withinRange = function(x, y) {
 	    return (x - cache.centerX) * (x - cache.centerX) +
 	    	(y - cache.centerY) * (y - cache.centerY) <= cache.r * cache.r;
 	};
-	
+
 	this.calculateColor = function(x, y) {
 	    var centerX = cache.centerX;
 	    var centerY = cache.centerY;
 	    var r = cache.r;
 
 		if (type == constants.getMono()) {
-
+			var ds = Math.sqrt((centerX-x)*(centerX-x) + (centerY-y)*(centerY-y));
+			if (ds < r * 0.1) {
+				var color = getHSVFromRePos(centerX, center);
+			}
 		}
 		else if (type == constants.getComple()) {
 			var x2 = centerX - x;
@@ -106,9 +150,9 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
 	};
 
 	this.rgbToHex = function(color) {
-		return "#" + decToHex(color.r) +
-				decToHex(color.g) +
-				decToHex(color.b);
+		return "#" + decToHex(color.rv) +
+				decToHex(color.gv) +
+				decToHex(color.bv);
 	};
 
 	this.cacheCenterR = function() {
@@ -118,9 +162,9 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
 	function getCenterR () {
 		var height = canvas.height();
 	    var width = canvas.width();
-	    var delta = height > width? (width/2) : (height/2);
-	    var centerX = width / 2;
-	    var centerY = height / 2;
+	    var delta = height > width? (width/2.0) : (height/2.0);
+	    var centerX = width / 2.0;
+	    var centerY = height / 2.0;
 	    var r = delta*0.9;
 	    return {'height':height, 'width': width,
 	    	'centerX':centerX, 'centerY':centerY, 'r':r};
@@ -140,7 +184,7 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
         var cg = [w, 255, 255, v, u, u, w][g];
         var cb = [u, u, w, 255, 255, v, u][g];
 
-        return {'h':h, 's':s, 'v':1, 'r':cr, 'g':cg, 'b':cb};
+        return {'h':g, 's':s, 'v':1, 'r':cr, 'g':cg, 'b':cb};
 	}
 
 	this.drawColorWheel = function() {

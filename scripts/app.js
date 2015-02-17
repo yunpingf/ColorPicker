@@ -4,7 +4,8 @@ $(document).ready(function () {
     var injector = angular.element(document).injector();
     var service = injector.get('ColorWheelService');
     service.drawColorWheel();
-    
+
+    console.log(parseInt("0") == parseFloat("0"));
 });
 
 $(window).resize( function(){
