@@ -42,8 +42,8 @@
       			<div class="button-row" style="flex-basis: 47%">
       				<div class="rest-block-bottom-{{colorShown}}"></div>
       				<div class="color-block" ng-class="{'hide': colorShown != 'three'}">
-      					<a class="color-tag" href href style="background-color: {{thirdColor.hex}}"><span class="badge">{{thirdColor.v * 100}}%</span>
-      						<div class="slider"><input type="range" min="0" max="100" value="100" step="1" ng-model="thirdColor.v"/></div>
+      					<a class="color-tag" href href style="background-color: {{thirdColor.hex}}"><span class="badge">{{(thirdColor.v * 100).toFixed(0)}}%</span>
+      						<div class="slider"><input type="range" min="0" max="1" value="1" step="0.01" ng-model="thirdColor.v" ng-mousedown="onRangeDown(3)" ng-mousemove = "onRangeMove()"/></div>
       					</a>
       					<div class="color-name">
       						<div class="button-row" data-toggle="tooltip" title="RGB" style="margin:0px">
@@ -60,8 +60,8 @@
       					</div>
       				</div>
       				<div class="color-block" ng-class="{'hide': colorShown == 'one'}">
-      					<a class="color-tag" href href style="background-color: {{secondColor.hex}}"><span class="badge">{{secondColor.v * 100}}%</span>
-      						<div class="slider"><input type="range" min="0" max="100" value="100" step="1" ng-model="secondColor.v"/></div>
+      					<a class="color-tag" href href style="background-color: {{secondColor.hex}}"><span class="badge">{{(secondColor.v * 100).toFixed(0)}}%</span>
+      						<div class="slider"><input type="range" min="0" max="1" value="1" step="0.01" ng-model="secondColor.v" ng-mousedown="onRangeDown(2)" ng-mousemove = "onRangeMove()"/></div>
       					</a>
       					<div class="color-name">
       						<div class="button-row" data-toggle="tooltip" title="RGB" style="margin:0px">
@@ -78,8 +78,8 @@
       					</div>
       				</div>
       				<div class="color-block">
-      					<a class="color-tag" href href style="background-color: {{firstColor.hex}}"><span class="badge">{{firstColor.v * 100}}%</span>
-                                          <div class="slider"><input type="range" min="0" max="100" value="100" step="1" ng-model="firstColor.v"/></div>
+      					<a class="color-tag" href href style="background-color: {{firstColor.hex}}"><span class="badge">{{(firstColor.v * 100).toFixed(0)}}%</span>
+                                          <div class="slider"><input type="range" min="0" max="1" value="1" step="0.01" ng-model="firstColor.v" ng-mousedown="onRangeDown(1)" ng-mousemove = "onRangeMove()"/></div>
                                     </a>
                                     <div class="color-name">
                                           <div class="button-row" data-toggle="tooltip" title="RGB" style="margin:0px">
