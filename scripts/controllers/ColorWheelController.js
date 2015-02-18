@@ -9,7 +9,7 @@ angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'Colo
     	[{src: "3", value: constants.getSplit()}, {src: "4", value: constants.getDouble()}],
     	[{src: "5", value: constants.getAnalog()}, {src: "6", value: constants.getTriad()}]
     ];
-    $scope.composeType = constants.getMono();
+    $scope.composeType = "";
     $scope.mainColor = {x: canvas.width()/2.0, y: canvas.height()/2.0, r:"255", g:"255", b:"255", 
                         rv:"255", gv:"255", bv:"255", h:0, s:0, v:1, "hex":"#FFFFFF"};
     $scope.thirdColor = {x: canvas.width()/2.0, y: canvas.height()/2.0, r:"255", g:"255", b:"255", 
@@ -24,24 +24,27 @@ angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'Colo
     	$scope.colorShown = val;
     }
 
-    $scope.change = function(){
-        console.log("!!!");
-    }
-
     $scope.chooseComposeType = function(type) {
     	$scope.composeType = type;
     	ColorWheelService.setComposeType(type);
-    	if (type == constants.getMono() || type == constants.getComple())
+        ColorWheelService.cacheCenterR();
+    	if (type == constants.getMono() || type == constants.getComple()){
     		setColorShown(constants.getOne());
+            $scope.firstColor = ColorWheelService.calculateColor($scope.mainColor.x, $scope.mainColor.y, $scope.mainColor.v);
+        }
     	else if (type == constants.getSplit() || type == constants.getAnalog()
-    		|| type == constants.getTriad())
+    		|| type == constants.getTriad()){
     		setColorShown(constants.getTwo());
-    	else if (type == constants.getDouble())
+        }
+    	else if (type == constants.getDouble()){
     		setColorShown(constants.getThree());
+        }
     };
 
     $scope.onMouseDown = function(pos, $event) {
     	ColorWheelService.cacheCenterR();
+        ColorWheelService.cacheDegree($scope.mainColor, $scope.firstColor,
+            $scope.secondColor, $scope.thirdColor);
         $scope.mouseDown[pos] = true;
     };
     $scope.onMouseUp = function($event) {
@@ -59,8 +62,13 @@ angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'Colo
     $scope.onMouseMove = function($event) {
     	if (($scope.mouseDown.main || $scope.mouseDown.first || $scope.mouseDown.second || $scope.mouseDown.third) 
             && (ColorWheelService.withinRange($event.offsetX, $event.offsetY))) {
-            if ($scope.mouseDown.main) 
+            if ($scope.mouseDown.main) {
                 $scope.mainColor = ColorWheelService.getMainColor($event.offsetX, $event.offsetY, $scope.mainColor.v);
+                if ($scope.composeType == constants.getMono()
+                    || $scope.composeType == constants.getComple()){
+                    $scope.firstColor = ColorWheelService.calculateMove($scope.mainColor.x, $scope.mainColor.y, $scope.mainColor.v);
+                }
+            }
             else if ($scope.mouseDown.first) 
                 $scope.firstColor = ColorWheelService.getMainColor($event.offsetX, $event.offsetY, $scope.firstColor.v);
             else if ($scope.mouseDown.second) 

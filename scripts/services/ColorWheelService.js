@@ -4,16 +4,14 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
 	var composeType = "";
 	var count = 0;
 	var cache = {};
+	var cacheDeg = {};
 
 	this.setComposeType = function(type) {
 		composeType = type;
 	};
 
-	this.getMainColor = function(i, j, v) {
-	    var x = i - cache.centerX;
-	    var y = j - cache.centerY;
-	    var color = getHSVFromRePos(x, y, cache.r);
-	    color.x = i;
+	function justHelper(color, i, j, v){
+		color.x = i;
 	    color.y = j;
 	    color.rv = Math.floor(color.r * v);
 	    color.gv = Math.floor(color.g * v);
@@ -22,11 +20,18 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
 		color.g = Math.floor(color.g);
 		color.b = Math.floor(color.b);
 		color.v = v;
+		return color;
+	};
+
+	this.getMainColor = function(i, j, v) {
+	    var x = i - cache.centerX;
+	    var y = j - cache.centerY;
+	    var color = justHelper(getHSVFromRePos(x, y, cache.r), i, j, v);
 		color.hex = this.rgbToHex(color);
 		return color;
 	};
 
-	this.getHSV = function(color){
+	this.getHSV = function(color){ //when rv, gv, bv changes
 		var r = color.rv / 255.0;
 		var g = color.gv / 255.0;
 		var b = color.bv / 255.0;
@@ -66,25 +71,60 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
 	    	(y - cache.centerY) * (y - cache.centerY) <= cache.r * cache.r;
 	};
 
-	this.calculateColor = function(x, y) {
+	function distance(x1, y1, x2, y2) {
+		return Math.sqrt((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2));
+	};
+
+	this.calculateMove = function(x, y, v) {
+		var centerX = cache.centerX;
+	    var centerY = cache.centerY;
+
+	    if ((composeType == constants.getMono()) || (composeType == constants.getComple())) {
+	    	var a = Math.atan2(y-centerY, x-centerX);
+	    	var cosa = Math.cos(a);
+	    	var cos2a = Math.cos(a + cacheDeg.aOne);
+	    	var sina = Math.sin(a);
+	    	var sin2a = Math.sin(a + cacheDeg.aOne);
+	    	var x2 = (x-centerX)*cacheDeg.rateOne*cos2a/cosa;
+	    	var y2 = (y-centerY)*cacheDeg.rateOne*sin2a/sina;
+
+	    	var color = justHelper(getHSVFromRePos(x2, y2, cache.r), x2+centerX, y2+centerY, v);
+			color.hex = this.rgbToHex(color);
+			return color;
+	    }
+	}
+
+	this.calculateColor = function(x, y, v) {
 	    var centerX = cache.centerX;
 	    var centerY = cache.centerY;
 	    var r = cache.r;
-
-		if (type == constants.getMono()) {
-			var ds = Math.sqrt((centerX-x)*(centerX-x) + (centerY-y)*(centerY-y));
-			if (ds < r * 0.1) {
-				var color = getHSVFromRePos(centerX, center);
+		if (composeType == constants.getMono()) {
+			var ds = distance(x, y, centerX, centerY);
+			var color;
+			if (ds < r * 0.2) {
+				color = justHelper(getHSVFromRePos(0, 0, r), centerX, centerY, v);
+				color.hex = this.rgbToHex(color);
 			}
+			else {
+				var ds2 = ds - r*0.2;
+				color = justHelper(getHSVFromRePos((x-centerX)*ds2/ds, (y-centerY)*ds2/ds, r), 
+					centerX+(x-centerX)*ds2/ds, centerY+(y-centerY)*ds2/ds, v);
+				color.hex = this.rgbToHex(color);
+			}
+
+			return color;
 		}
-		else if (type == constants.getComple()) {
+		else if (composeType == constants.getComple()) {
 			var x2 = centerX - x;
 			var y2 = centerY - y;
-			var color = getHSVFromRePos(x2, y2,r);
+			var color = justHelper(getHSVFromRePos(x2, y2,r),
+				2*centerX-x, 2*centerY-y, v);
+			color.hex = this.rgbToHex(color);
+			return color;
 		}
-		else if (type == constants.getSplit()) {
+		else if (composeType == constants.getSplit()) {
 			var ds = Math.sqrt((centerX-x)*(centerX-x) + (centerY-y)*(centerY-y));
-			var deg = atan2(centerY-y, centerX-x); //comple angle between positive x axis
+			var deg = Math.atan2(centerY-y, centerX-x); //comple angle between positive x axis
 			var degL = deg - Math.PI / 6;
 			var degR = deg + Math.PI / 6;
 
@@ -96,7 +136,7 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
 			var colorL = getHSVFromRePos(xL, yL, r);
 			var colorR = getHSVFromRePos(xR, yR, r);
 		}
-		else if (type == constants.getDouble()) {
+		else if (composeType == constants.getDouble()) {
 			var ds = Math.sqrt((centerX-x)*(centerX-x) + (centerY-y)*(centerY-y));
 			var deg = atan2(y - centerY, x - centerX);
 			var degCom = atan2(centerY-y, centerX-x); //comple angle between positive x axis
@@ -114,7 +154,7 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
 			var colorL = getHSVFromRePos(xL, yL, r);
 			var colorR = getHSVFromRePos(xR, yR, r);
 		}
-		else if (type == constants.getAnalog()) {
+		else if (composeType == constants.getAnalog()) {
 			var ds = Math.sqrt((centerX-x)*(centerX-x) + (centerY-y)*(centerY-y));
 			var deg = atan2(y - centerY, x - centerX);
 			var degL = deg + Math.PI / 6;
@@ -128,7 +168,7 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
 			var colorL = getHSVFromRePos(xL, yL, r);
 			var colorR = getHSVFromRePos(xR, yR, r);
 		}
-		else if (type == constant.getTriad()) {
+		else if (composeType == constant.getTriad()) {
 			var ds = Math.sqrt((centerX-x)*(centerX-x) + (centerY-y)*(centerY-y));
 			var deg = atan2(y - centerY, x - centerX);
 			var degL = deg + Math.PI * 2 / 3;
@@ -157,6 +197,21 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
 
 	this.cacheCenterR = function() {
 		cache = getCenterR();
+	};
+
+	this.cacheDegree = function(mainColor, firstColor, secondColor, thirdColor) {
+		var centerX = cache.centerX;
+		var centerY = cache.centerY;
+
+		var dsMain = distance(mainColor.x, mainColor.y, centerX, centerY);
+		var dsOne = distance(firstColor.x, firstColor.y, centerX, centerY);
+		var degMain = Math.atan2(mainColor.y-centerY, mainColor.x-centerX);
+		var degOne = Math.atan2(firstColor.y-centerY, firstColor.x-centerX);
+
+		if (composeType == constants.getMono()) {
+			cacheDeg.rateOne = dsOne / dsMain;
+			cacheDeg.aOne = degOne - degMain;
+		}
 	};
 
 	function getCenterR () {
