@@ -30,7 +30,7 @@ body {
   z-index: 3;
 }
 #secondPicker {
-  border: 2px solid #868686;
+  border: 2px solid white;
   z-index: 2;
 }
 #thirdPicker {

@@ -8,8 +8,8 @@ angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'Colo
     $scope.rangeDown = {main:false, first:false, second:false, third:false};
     $scope.choices = [
     	[{src: "1", value: constants.getMono()}, {src: "2", value: constants.getComple()}],
-    	[{src: "3", value: constants.getSplit()}, {src: "4", value: constants.getDouble()}],
-    	[{src: "5", value: constants.getAnalog()}, {src: "6", value: constants.getTriad()}]
+    	[{src: "3", value: constants.getSplit()}, {src: "4", value: constants.getAnalog()}],
+    	[{src: "5", value: constants.getTriad()}, {src: "6", value: constants.getDouble()}]
     ];
     $scope.composeType = "";
     $scope.mainColor = {x: canvasWidth/2, y: canvasHeight/2, r:"255", g:"255", b:"255", 
@@ -38,12 +38,15 @@ angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'Colo
     		|| type == constants.getTriad()){
             setColorShown(constants.getTwo());
             var colors = ColorWheelService.calculateColor($scope.mainColor.x, $scope.mainColor.y, $scope.mainColor.v);
-            console.log(colors);
             $scope.firstColor = colors[0];
             $scope.secondColor = colors[1];
         }
     	else if (type == constants.getDouble()){
     		setColorShown(constants.getThree());
+            var colors = ColorWheelService.calculateColor($scope.mainColor.x, $scope.mainColor.y, $scope.mainColor.v);
+            $scope.firstColor = colors[0];
+            $scope.secondColor = colors[1];
+            $scope.thirdColor = colors[2];
         }
     };
 
@@ -77,10 +80,15 @@ angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'Colo
                 }
                 else if ($scope.composeType  == constants.getSplit() || $scope.composeType  == constants.getAnalog()
                     || $scope.composeType  == constants.getTriad()){
-                   
+                    var colors = ColorWheelService.calculateMove($scope.mainColor.x, $scope.mainColor.y, $scope.mainColor.v);
+                    $scope.firstColor = colors[0];
+                    $scope.secondColor = colors[1];
                 }
                 else if ($scope.composeType  == constants.getDouble()){
-                    
+                    var colors = ColorWheelService.calculateMove($scope.mainColor.x, $scope.mainColor.y, $scope.mainColor.v);
+                    $scope.firstColor = colors[0];
+                    $scope.secondColor = colors[1];
+                    $scope.thirdColor = colors[2];
                 }
             }
             else if ($scope.mouseDown.first) 
