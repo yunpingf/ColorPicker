@@ -124,7 +124,15 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
                 return [color1, color2];
             }         
         }
-    }
+    };
+
+    this.colorRangeMove = function(color) {
+        color.rv = Math.floor(color.r * color.v);
+        color.gv = Math.floor(color.g * color.v);
+        color.bv = Math.floor(color.b * color.v);
+        color.hex = rgbToHex(color);
+        return color;
+    };
 
     this.calculateColor = function(x, y, v) {
         var centerX = cache.centerX;
@@ -198,12 +206,6 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
     function decToHex(num) { //decimal num in string
         var hex = parseInt(num).toString(16).toUpperCase();
         return hex.length == 1? "0"+hex: hex;
-    };
-
-    this.rgbToHex = function(color) {
-        return "#" + decToHex(color.rv) +
-                decToHex(color.gv) +
-                decToHex(color.bv);
     };
 
     function rgbToHex(color) {

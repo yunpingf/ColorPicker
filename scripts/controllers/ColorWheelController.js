@@ -134,30 +134,13 @@ angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'Colo
     };
 
     $scope.onRangeMove = function(){
-        if ($scope.rangeDown.main) {
-            $scope.mainColor.rv = Math.floor($scope.mainColor.r * $scope.mainColor.v);
-            $scope.mainColor.gv = Math.floor($scope.mainColor.g * $scope.mainColor.v);
-            $scope.mainColor.bv = Math.floor($scope.mainColor.b * $scope.mainColor.v);
-            $scope.mainColor.hex = ColorWheelService.rgbToHex($scope.mainColor);
-        }
-        else if ($scope.rangeDown.first) {
-            $scope.firstColor.rv = Math.floor($scope.firstColor.r * $scope.firstColor.v);
-            $scope.firstColor.gv = Math.floor($scope.firstColor.g * $scope.firstColor.v);
-            $scope.firstColor.bv = Math.floor($scope.firstColor.b * $scope.firstColor.v);
-            $scope.firstColor.hex = ColorWheelService.rgbToHex($scope.firstColor);
-        }
-        else if ($scope.rangeDown.second) {
-            $scope.secondColor.rv = Math.floor($scope.secondColor.r * $scope.secondColor.v);
-            $scope.secondColor.gv = Math.floor($scope.secondColor.g * $scope.secondColor.v);
-            $scope.secondColor.bv = Math.floor($scope.secondColor.b * $scope.secondColor.v);
-            $scope.secondColor.hex = ColorWheelService.rgbToHex($scope.secondColor);
-        }
-        else if ($scope.rangeDown.third) {
-            $scope.thirdColor.rv = Math.floor($scope.thirdColor.r * $scope.thirdColor.v);
-            $scope.thirdColor.gv = Math.floor($scope.thirdColor.g * $scope.thirdColor.v);
-            $scope.thirdColor.bv = Math.floor($scope.thirdColor.b * $scope.thirdColor.v);
-            $scope.thirdColor.hex = ColorWheelService.rgbToHex($scope.thirdColor);
-        }
-
+        if ($scope.rangeDown.main)
+            $scope.mainColor = ColorWheelService.colorRangeMove($scope.mainColor);
+        else if ($scope.rangeDown.first)
+            $scope.firstColor = ColorWheelService.colorRangeMove($scope.firstColor);
+        else if ($scope.rangeDown.second)
+            $scope.secondColor = ColorWheelService.colorRangeMove($scope.secondColor);
+        else if ($scope.rangeDown.third)
+            $scope.thirdColor = ColorWheelService.colorRangeMove($scope.thirdColor);
     };
 }]);
