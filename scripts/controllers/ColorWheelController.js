@@ -1,5 +1,7 @@
 angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'ColorWheelService', function($scope, ColorWheelService) {
-    var canvas = $("#colorWheel");
+    var canvas = $("canvas");
+    var canvasWidth = canvas.width();
+    var canvasHeight = canvas.height();
     var leftOffset = canvas.offset().left;
     var topOffset = canvas.offset().top;
     $scope.mouseDown = {main:false, first:false, second:false, third:false};
@@ -10,13 +12,13 @@ angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'Colo
     	[{src: "5", value: constants.getAnalog()}, {src: "6", value: constants.getTriad()}]
     ];
     $scope.composeType = "";
-    $scope.mainColor = {x: canvas.width()/2.0, y: canvas.height()/2.0, r:"255", g:"255", b:"255", 
+    $scope.mainColor = {x: canvasWidth/2, y: canvasHeight/2, r:"255", g:"255", b:"255", 
                         rv:"255", gv:"255", bv:"255", h:0, s:0, v:1, "hex":"#FFFFFF"};
-    $scope.thirdColor = {x: canvas.width()/2.0, y: canvas.height()/2.0, r:"255", g:"255", b:"255", 
+    $scope.thirdColor = {x: canvasWidth/2, y: canvasHeight/2, r:"255", g:"255", b:"255", 
                         rv:"255", gv:"255", bv:"255", h:0, s:0, v:1, "hex":"#FFFFFF"};
-    $scope.secondColor = {x: canvas.width()/2.0, y: canvas.height()/2.0, r:"255", g:"255", b:"255", 
+    $scope.secondColor = {x: canvasWidth/2, y: canvasHeight/2, r:"255", g:"255", b:"255", 
                         rv:"255", gv:"255", bv:"255", h:0, s:0, v:1, "hex":"#FFFFFF"};
-    $scope.firstColor = {x: canvas.width()/2.0, y: canvas.height()/2.0, r:"255", g:"255", b:"255", 
+    $scope.firstColor = {x: canvasWidth/2, y: canvasHeight/2, r:"255", g:"255", b:"255", 
                         rv:"255", gv:"255", bv:"255", h:0, s:0, v:1, "hex":"#FFFFFF"};
     $scope.colorShown = constants.getOne();
 
@@ -34,7 +36,11 @@ angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'Colo
         }
     	else if (type == constants.getSplit() || type == constants.getAnalog()
     		|| type == constants.getTriad()){
-    		setColorShown(constants.getTwo());
+            setColorShown(constants.getTwo());
+            var colors = ColorWheelService.calculateColor($scope.mainColor.x, $scope.mainColor.y, $scope.mainColor.v);
+            console.log(colors);
+            $scope.firstColor = colors[0];
+            $scope.secondColor = colors[1];
         }
     	else if (type == constants.getDouble()){
     		setColorShown(constants.getThree());
@@ -43,8 +49,9 @@ angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'Colo
 
     $scope.onMouseDown = function(pos, $event) {
     	ColorWheelService.cacheCenterR();
-        ColorWheelService.cacheDegree($scope.mainColor, $scope.firstColor,
-            $scope.secondColor, $scope.thirdColor);
+        if ($scope.composeType != "")
+            ColorWheelService.cacheDegree($scope.mainColor, $scope.firstColor,
+                $scope.secondColor, $scope.thirdColor);
         $scope.mouseDown[pos] = true;
     };
     $scope.onMouseUp = function($event) {
@@ -67,6 +74,13 @@ angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'Colo
                 if ($scope.composeType == constants.getMono()
                     || $scope.composeType == constants.getComple()){
                     $scope.firstColor = ColorWheelService.calculateMove($scope.mainColor.x, $scope.mainColor.y, $scope.mainColor.v);
+                }
+                else if ($scope.composeType  == constants.getSplit() || $scope.composeType  == constants.getAnalog()
+                    || $scope.composeType  == constants.getTriad()){
+                   
+                }
+                else if ($scope.composeType  == constants.getDouble()){
+                    
                 }
             }
             else if ($scope.mouseDown.first) 
@@ -94,7 +108,10 @@ angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'Colo
         else if (index == 3) color = $scope.thirdColor;
 
     	if (!$scope.invalidRGB(color[pos])) {
-    		if (index == 0) $scope.mainColor = ColorWheelService.getHSV($scope.mainColor);
+    		if (index == 0) {
+                $scope.mainColor = ColorWheelService.getHSV($scope.mainColor);
+                console.log($scope.mainColor);
+            }
             else if (index == 1) $scope.firstColor = ColorWheelService.getHSV($scope.firstColor);
             else if (index == 2) $scope.secondColor = ColorWheelService.getHSV($scope.secondColor);
             else if (index == 3) $scope.thirdColor = ColorWheelService.getHSV($scope.thirdColor);

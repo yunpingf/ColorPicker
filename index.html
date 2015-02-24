@@ -101,8 +101,8 @@
 		    	<div class="pointer-outer">
 		    		<span class="picker" id="colorpicker" style="left: {{mainColor.x}}px;top: {{mainColor.y}}px" ng-mousedown="onMouseDown('main', $event)"></span>
                         <span class="picker" id="firstPicker" style="left: {{firstColor.x}}px;top: {{firstColor.y}}px" ng-mousedown="onMouseDown('first', $event)"></span>
-                        <span class="picker" id="secondPicker" ng-class="{'hide': colorShown == 'one'}"></span>
-                        <span class="picker" id="thirdPicker" ng-class="{'hide': colorShown != 'three'}"></span>
+                        <span class="picker" id="secondPicker" style="left: {{secondColor.x}}px;top: {{secondColor.y}}px" ng-mousedown="onMouseDown('second', $event)" ng-class="{'hide': colorShown == 'one'}"></span>
+                        <span class="picker" id="thirdPicker" style="left: {{thirdColor.x}}px;top: {{thirdColor.y}}px" ng-mousedown="onMouseDown('third', $event)" ng-class="{'hide': colorShown != 'three'}"></span>
 		    	</div>
 		    	<div class="button-column calc-wheel" style="flex-basis: 200%">
 		    		<canvas id="colorWheel" class="pointer-outer"  ng-mousemove="onMouseMove($event)"/>
