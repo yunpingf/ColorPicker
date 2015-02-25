@@ -1,5 +1,5 @@
 angular.module('ColorWheel').service('ColorWheelService', function() {
-    var canvas = $("canvas");
+    var canvas = $("#colorWheel");
     var context = canvas.get(0).getContext('2d');
     var composeType = "";
     var count = 0;
@@ -67,7 +67,7 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
         var xy = getPosFromHSV(color.h, color.s);
         color.x = xy.x;
         color.y = xy.y;
-        color.hex = this.rgbToHex(color);
+        color.hex = rgbToHex(color);
         return color;
     };
 
@@ -156,7 +156,7 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
                 var ds2 = ds - r*0.2;
                 color = justHelper(getHSVFromRePos((x-centerX)*ds2/ds, (y-centerY)*ds2/ds, r), 
                     centerX+(x-centerX)*ds2/ds, centerY+(y-centerY)*ds2/ds, v);
-                color.hex = this.rgbToHex(color);
+                color.hex = rgbToHex(color);
             }
             return color;
         }
@@ -164,7 +164,7 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
             var x2 = centerX - x;
             var y2 = centerY - y;
             var color = justHelper(getHSVFromRePos(x2, y2,r), 2*centerX-x, 2*centerY-y, v);
-            color.hex = this.rgbToHex(color);
+            color.hex = rgbToHex(color);
             return color;
         }
         else if (composeType == constants.getSplit() || composeType == constants.getAnalog() ||
@@ -296,7 +296,6 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
         var deg = h * Math.PI / 180;
 
         var dis = s * r;
-        console.log(dis * Math.cos(deg));
         return {'x': dis * Math.cos(deg)+center.centerX, 'y': center.centerY-dis * Math.sin(deg)};
     }
 

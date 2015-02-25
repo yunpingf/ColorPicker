@@ -62,7 +62,9 @@ body {
   margin: 0px;
   min-width: 204px;
   overflow: scroll;
-  padding: 20px;
+  padding: 10px;
+  padding-bottom: 5px;
+  padding-top: 5px;
 }
 
 #container #buttons {
@@ -88,22 +90,24 @@ body {
 }
 
 .color-tag {
-  flex:1 1 100%;
+  flex:1 1 128%;
   background-color: purple;
   position: relative;
   border: 1px solid #696969;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
 }
 .color-name {
   flex:1 1 100%;
-  max-height:40px;
-  min-height:40px;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   background-color: white;
-  font-size:12px;
+  font-size:10px;
+}
+.colorinput{
+  padding: 0px;
+  margin: 0px;
 }
 
 .rest-block-bottom-three {

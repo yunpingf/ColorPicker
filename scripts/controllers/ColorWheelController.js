@@ -1,5 +1,5 @@
 angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'ColorWheelService', function($scope, ColorWheelService) {
-    var canvas = $("canvas");
+    var canvas = $("#colorWheel");
     var canvasWidth = canvas.width();
     var canvasHeight = canvas.height();
     var leftOffset = canvas.offset().left;
