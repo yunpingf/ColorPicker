@@ -16,19 +16,18 @@
 	<body>
 		<div id="container" ng-controller="ColorWheelController" ng-mouseup="onMouseUp($event)">
       		<div id="display" class="calc-display">
-      			<div class="button-row" style="flex-basis: 47%">
-      				<div class="rest-block-top"></div>
-      				<div class="color-block">	
+      			<div class="button-row" style="flex-basis: 47%; width:50%;margin-left: 50%;">
+      				<div class="color-block block-width-two">	
       					<a class="color-tag" id="mainColor" href style="background-color: {{mainColor.hex}}"><span class="badge">{{(mainColor.v * 100).toFixed(0)}}%</span>
       						<div class="slider"><input type="range" min="0" max="1" value="1" step="0.01" ng-model="mainColor.v" ng-mousedown="onRangeDown(0)" ng-mousemove = "onRangeMove()"/></div>
       					</a>
       					<div class="color-name">
       						<div class="button-row" data-toggle="tooltip" title="RGB" style="margin:0px">
-      							<input class="button-column colorinput" placeholder="R" ng-model="mainColor.rv"
+      							<input class="colorinput" placeholder="R" ng-model="mainColor.rv"
       								ng-class="{'alert-warning': invalidRGB(mainColor.rv)}" ng-change="updateColorInput(0, 'rv')"></input>
-      							<input class="button-column colorinput" placeholder="G" ng-model="mainColor.gv"
+      							<input class="colorinput" placeholder="G" ng-model="mainColor.gv"
       								ng-class="{'alert-warning': invalidRGB(mainColor.gv)}" ng-change="updateColorInput(0, 'gv')"></input>
-      							<input class="button-column colorinput" placeholder="B" ng-model="mainColor.bv"
+      							<input class="colorinput" placeholder="B" ng-model="mainColor.bv"
       								ng-class="{'alert-warning': invalidRGB(mainColor.bv)}" ng-change="updateColorInput(0, 'bv')"></input>
       						</div>
       						<div class="button-row" data-toggle="tooltip" title="HEX">
@@ -40,8 +39,7 @@
       			</div>
       			<div class="button-row" style="flex-basis: 6%;min-height:18px">{{composeType}}</div>
       			<div class="button-row" style="flex-basis: 47%">
-      				<div class="rest-block-bottom-{{colorShown}}"></div>
-      				<div class="color-block" ng-class="{'hide': colorShown != 'three'}">
+      				<div class="color-block block-width-{{colorShown}}" ng-class="{'hide': colorShown != 'three'}">
       					<a class="color-tag" href href style="background-color: {{thirdColor.hex}}"><span class="badge">{{(thirdColor.v * 100).toFixed(0)}}%</span>
       						<div class="slider"><input type="range" min="0" max="1" value="1" step="0.01" ng-model="thirdColor.v" ng-mousedown="onRangeDown(3)" ng-mousemove = "onRangeMove()"/></div>
       					</a>
@@ -59,7 +57,7 @@
       						</div>
       					</div>
       				</div>
-      				<div class="color-block" ng-class="{'hide': colorShown == 'one'}">
+      				<div class="color-block block-width-{{colorShown}}" ng-class="{'hide': colorShown == 'one'}">
       					<a class="color-tag" href href style="background-color: {{secondColor.hex}}"><span class="badge">{{(secondColor.v * 100).toFixed(0)}}%</span>
       						<div class="slider"><input type="range" min="0" max="1" value="1" step="0.01" ng-model="secondColor.v" ng-mousedown="onRangeDown(2)" ng-mousemove = "onRangeMove()"/></div>
       					</a>
@@ -77,7 +75,7 @@
       						</div>
       					</div>
       				</div>
-      				<div class="color-block">
+      				<div class="color-block block-width-{{colorShown}}">
       					<a class="color-tag" href href style="background-color: {{firstColor.hex}}"><span class="badge">{{(firstColor.v * 100).toFixed(0)}}%</span>
                                           <div class="slider"><input type="range" min="0" max="1" value="1" step="0.01" ng-model="firstColor.v" ng-mousedown="onRangeDown(1)" ng-mousemove = "onRangeMove()"/></div>
                                     </a>

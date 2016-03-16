@@ -83,10 +83,20 @@ body {
 }
 .color-block {
   flex: 1 1 100%;
-  margin-left: 10px;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
+}
+
+.block-width-one {
+  width:50%;
+  margin-left: 50%;
+}
+.block-width-two {
+  width: 50%;
+}
+.block-width-three {
+  width: 33%;
 }
 
 .color-tag {
@@ -108,17 +118,7 @@ body {
 .colorinput{
   padding: 0px;
   margin: 0px;
-}
-
-.rest-block-bottom-three {
-  flex: 1 1 90%;
-}
-
-.rest-block-bottom-two{
-  flex: 1 1 190%;
-}
-.rest-block-bottom-one {
-  flex: 1 1 290%;
+  width:35%;
 }
 
 .button-row {

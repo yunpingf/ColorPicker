@@ -150,7 +150,7 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
             var color;
             if (ds < r * 0.2) {
                 color = justHelper(getHSVFromRePos(0, 0, r), centerX, centerY, v);
-                color.hex = this.rgbToHex(color);
+                color.hex = rgbToHex(color);
             }
             else {
                 var ds2 = ds - r*0.2;

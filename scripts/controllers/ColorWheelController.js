@@ -1,3 +1,7 @@
+/*angular.module('ColorWheel').decorator('$window', function($delegate) {
+    Object.defineProperty($delegate, 'history', {get: function(){ return null; }});
+    return $delegate;
+});*/
 angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'ColorWheelService', function($scope, ColorWheelService) {
     var canvas = $("#colorWheel");
     var canvasWidth = canvas.width();
