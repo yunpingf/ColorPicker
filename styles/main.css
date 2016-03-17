@@ -55,7 +55,7 @@ body {
   height: 100%;
 }
 #container #display{
-  flex: 1 1 90%;
+  flex: 2;
   border: none;
   letter-spacing: 1px;
   line-height: 20px;
@@ -68,7 +68,7 @@ body {
 }
 
 #container #buttons {
-  flex: 1 1 100%;
+  flex: 3;
   height: 244px;
   width: 100%;
   min-height: 225px;
@@ -78,14 +78,40 @@ body {
   display: flex;
   flex-direction: column;
 }
-.rest-block-top {
-  flex: 1 1 300%;
+
+.toggleBtnGroup {
+  position:absolute;
+  
 }
+.toggleBtn {
+  border:solid 1px #CCC; 
+  cursor:pointer;
+  font-size: 10px;
+  margin: 0px;
+  line-height: 12px;
+  padding: 1px;
+}
+.toggleBtn.active {
+  background-color: #D3D3D3;
+}
+.toggleBtn:first-child {
+  border-radius: 3px 0px 0px 3px;
+}
+.toggleBtn:last-child {
+  border-radius: 0px 3px 3px 0px;
+}
+
+input[type=radio] {
+  display:none;
+}
+
 .color-block {
   flex: 1 1 100%;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
+  padding-left: 2px;
+  padding-right: 2px;
 }
 
 .block-width-one {
@@ -98,9 +124,14 @@ body {
 .block-width-three {
   width: 33%;
 }
+.calType {
+  position: absolute;
+  top:15%;
+  min-height: 18px;
+}
 
 .color-tag {
-  flex:1 1 128%;
+  flex:4;
   background-color: purple;
   position: relative;
   border: 1px solid #696969;
@@ -108,7 +139,7 @@ body {
   border-top-right-radius: 6px;
 }
 .color-name {
-  flex:1 1 100%;
+  flex:1;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;

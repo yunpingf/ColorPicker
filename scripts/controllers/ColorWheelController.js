@@ -16,6 +16,7 @@ angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'Colo
     	[{src: "5", value: constants.getTriad()}, {src: "6", value: constants.getDouble()}]
     ];
     $scope.composeType = "";
+    var activeType = null;
     $scope.mainColor = {x: canvasWidth/2, y: canvasHeight/2, r:"255", g:"255", b:"255", 
                         rv:"255", gv:"255", bv:"255", h:0, s:0, v:1, "hex":"#FFFFFF"};
     $scope.thirdColor = {x: canvasWidth/2, y: canvasHeight/2, r:"255", g:"255", b:"255", 
@@ -25,32 +26,57 @@ angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'Colo
     $scope.firstColor = {x: canvasWidth/2, y: canvasHeight/2, r:"255", g:"255", b:"255", 
                         rv:"255", gv:"255", bv:"255", h:0, s:0, v:1, "hex":"#FFFFFF"};
     $scope.colorShown = constants.getOne();
+    $scope.RGB = true;
 
     function setColorShown(val) {
     	$scope.colorShown = val;
     }
+    $scope.isRGB = function(){
+        $scope.RGB = true;
+    }
+    $scope.isHEX = function(){
+        $scope.RGB = false;
+    }
 
-    $scope.chooseComposeType = function(type) {
-    	$scope.composeType = type;
-    	ColorWheelService.setComposeType(type);
-        ColorWheelService.cacheCenterR();
-    	if (type == constants.getMono() || type == constants.getComple()){
-    		setColorShown(constants.getOne());
-            $scope.firstColor = ColorWheelService.calculateColor($scope.mainColor.x, $scope.mainColor.y, $scope.mainColor.v);
+    $scope.chooseComposeType = function($event,type) {
+        var elem = $($event.currentTarget || $event.srcElement);
+        var tmp = activeType == null?null:activeType.attr("value");
+        if (activeType != null){
+            activeType.removeClass("active");
+            activeType = null;
         }
-    	else if (type == constants.getSplit() || type == constants.getAnalog()
-    		|| type == constants.getTriad()){
-            setColorShown(constants.getTwo());
-            var colors = ColorWheelService.calculateColor($scope.mainColor.x, $scope.mainColor.y, $scope.mainColor.v);
-            $scope.firstColor = colors[0];
-            $scope.secondColor = colors[1];
+        if (elem.attr("value") != tmp){
+            elem.addClass("active");
+            activeType = elem;
         }
-    	else if (type == constants.getDouble()){
-    		setColorShown(constants.getThree());
-            var colors = ColorWheelService.calculateColor($scope.mainColor.x, $scope.mainColor.y, $scope.mainColor.v);
-            $scope.firstColor = colors[0];
-            $scope.secondColor = colors[1];
-            $scope.thirdColor = colors[2];
+        
+        if (activeType != null) {
+            $scope.composeType = type;
+            ColorWheelService.setComposeType(type);
+            ColorWheelService.cacheCenterR();
+            if (type == constants.getMono() || type == constants.getComple()){
+                setColorShown(constants.getOne());
+                $scope.firstColor = ColorWheelService.calculateColor($scope.mainColor.x, $scope.mainColor.y, $scope.mainColor.v);
+            }
+            else if (type == constants.getSplit() || type == constants.getAnalog()
+                || type == constants.getTriad()){
+                setColorShown(constants.getTwo());
+                var colors = ColorWheelService.calculateColor($scope.mainColor.x, $scope.mainColor.y, $scope.mainColor.v);
+                $scope.firstColor = colors[0];
+                $scope.secondColor = colors[1];
+            }
+            else if (type == constants.getDouble()){
+                setColorShown(constants.getThree());
+                var colors = ColorWheelService.calculateColor($scope.mainColor.x, $scope.mainColor.y, $scope.mainColor.v);
+                $scope.firstColor = colors[0];
+                $scope.secondColor = colors[1];
+                $scope.thirdColor = colors[2];
+            }
+        }    
+    	else {
+            setColorShown(constants.getOne());
+            ColorWheelService.setComposeType("");
+            $scope.composeType = "";
         }
     };
 

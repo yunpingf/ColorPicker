@@ -264,6 +264,7 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
     function getCenterR () {
         var height = document.getElementById("colorWheel").height;
         var width = document.getElementById("colorWheel").width;
+        
         var delta = height > width? (width/2) : (height/2);
         var centerX = width / 2;
         var centerY = height / 2;
@@ -303,6 +304,7 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
         var pos = getCenterR();
         var width = canvas.width();
         var height = canvas.height();
+
         var delta = height > width? (width/2) : (height/2);
         var centerX = width / 2;
         var centerY = height / 2;

@@ -4,7 +4,6 @@
 		<meta charset="utf-8">
 	    <script src="scripts/jquery.min.js"></script>
 	    <script src="scripts/angular.min.js"></script>
-	    <script src="scripts/bootstrap.min.js"></script>
 	    <script src="scripts/app.js"></script>
 	    <script src="scripts/constants.js"></script>
 	    <script src="scripts/services/ColorWheelService.js"></script>
@@ -16,13 +15,17 @@
 	<body>
 		<div id="container" ng-controller="ColorWheelController" ng-mouseup="onMouseUp($event)">
       		<div id="display" class="calc-display">
-      			<div class="button-row" style="flex-basis: 47%; width:50%;margin-left: 50%;">
+                        <div class="toggleBtnGroup">
+                              <label class="toggleBtn" ng-class="{'active':RGB}" ng-click="isRGB()"><input type="radio" name="nameType"/>RGB</label><label class="toggleBtn" ng-class="{'active':!RGB}" ng-click="isHEX()"><input type="radio" name="nameType"/>HEX</label>
+                        </div>
+      			<div class="calType">{{composeType}}</div>
+                        <div class="button-row" style="width:50%;margin-left: 50%;">
       				<div class="color-block block-width-two">	
       					<a class="color-tag" id="mainColor" href style="background-color: {{mainColor.hex}}"><span class="badge">{{(mainColor.v * 100).toFixed(0)}}%</span>
       						<div class="slider"><input type="range" min="0" max="1" value="1" step="0.01" ng-model="mainColor.v" ng-mousedown="onRangeDown(0)" ng-mousemove = "onRangeMove()"/></div>
       					</a>
       					<div class="color-name">
-      						<div class="button-row" data-toggle="tooltip" title="RGB" style="margin:0px">
+      						<div class="button-row" ng-class="{'hide':!RGB}" title="RGB" style="margin:0px">
       							<input class="colorinput" placeholder="R" ng-model="mainColor.rv"
       								ng-class="{'alert-warning': invalidRGB(mainColor.rv)}" ng-change="updateColorInput(0, 'rv')"></input>
       							<input class="colorinput" placeholder="G" ng-model="mainColor.gv"
@@ -30,21 +33,21 @@
       							<input class="colorinput" placeholder="B" ng-model="mainColor.bv"
       								ng-class="{'alert-warning': invalidRGB(mainColor.bv)}" ng-change="updateColorInput(0, 'bv')"></input>
       						</div>
-      						<div class="button-row" data-toggle="tooltip" title="HEX">
+      						<div class="button-row" ng-class="{'hide':RGB}" data-toggle="tooltip" title="HEX">
       							<input class="button-column colorinput" placeholder="HEX" ng-model="mainColor.hex"></input>
       						</div>
       					</div>
       					
       				</div>
       			</div>
-      			<div class="button-row" style="flex-basis: 6%;min-height:18px">{{composeType}}</div>
-      			<div class="button-row" style="flex-basis: 47%">
+      			
+      			<div class="button-row">
       				<div class="color-block block-width-{{colorShown}}" ng-class="{'hide': colorShown != 'three'}">
       					<a class="color-tag" href href style="background-color: {{thirdColor.hex}}"><span class="badge">{{(thirdColor.v * 100).toFixed(0)}}%</span>
       						<div class="slider"><input type="range" min="0" max="1" value="1" step="0.01" ng-model="thirdColor.v" ng-mousedown="onRangeDown(3)" ng-mousemove = "onRangeMove()"/></div>
       					</a>
       					<div class="color-name">
-      						<div class="button-row" data-toggle="tooltip" title="RGB" style="margin:0px">
+      						<div class="button-row" ng-class="{'hide':!RGB}" title="RGB" style="margin:0px">
       							<input class="button-column colorinput" placeholder="R" ng-model="thirdColor.rv"
       								ng-class="{'alert-warning': invalidRGB(thirdColor.rv)}" ng-change="updateColorInput(3,'rv')"></input>
       							<input class="button-column colorinput" placeholder="G" ng-model="thirdColor.gv"
@@ -52,7 +55,7 @@
       							<input class="button-column colorinput" placeholder="B" ng-model="thirdColor.bv"
       								ng-class="{'alert-warning': invalidRGB(thirdColor.bv)}" ng-change="updateColorInput(3, 'bv')"></input>
       						</div>
-      						<div class="button-row" data-toggle="tooltip" title="HEX">
+      						<div class="button-row" ng-class="{'hide':RGB}" data-toggle="tooltip" title="HEX">
       							<input class="button-column colorinput" placeholder="HEX" ng-model="thirdColor.hex"></input>
       						</div>
       					</div>
@@ -62,7 +65,7 @@
       						<div class="slider"><input type="range" min="0" max="1" value="1" step="0.01" ng-model="secondColor.v" ng-mousedown="onRangeDown(2)" ng-mousemove = "onRangeMove()"/></div>
       					</a>
       					<div class="color-name">
-      						<div class="button-row" data-toggle="tooltip" title="RGB" style="margin:0px">
+      						<div class="button-row" ng-class="{'hide':!RGB}" data-toggle="tooltip" title="RGB" style="margin:0px">
       							<input class="button-column colorinput" placeholder="R" ng-model="secondColor.rv"
       								ng-class="{'alert-warning': invalidRGB(secondColor.rv)}" ng-change="updateColorInput(2, 'rv')"></input>
       							<input class="button-column colorinput" placeholder="G" ng-model="secondColor.gv"
@@ -70,7 +73,7 @@
       							<input class="button-column colorinput" placeholder="B" ng-model="secondColor.bv"
       								ng-class="{'alert-warning': invalidRGB(secondColor.bv)}" ng-change="updateColorInput(2, 'bv')"></input>
       						</div>
-      						<div class="button-row" data-toggle="tooltip" title="HEX">
+      						<div class="button-row" ng-class="{'hide':RGB}" data-toggle="tooltip" title="HEX">
       							<input class="button-column colorinput" placeholder="HEX" ng-model="secondColor.hex"></input>
       						</div>
       					</div>
@@ -80,7 +83,7 @@
                                           <div class="slider"><input type="range" min="0" max="1" value="1" step="0.01" ng-model="firstColor.v" ng-mousedown="onRangeDown(1)" ng-mousemove = "onRangeMove()"/></div>
                                     </a>
                                     <div class="color-name">
-                                          <div class="button-row" data-toggle="tooltip" title="RGB" style="margin:0px">
+                                          <div class="button-row" ng-class="{'hide':!RGB}" data-toggle="tooltip" title="RGB" style="margin:0px">
                                                 <input class="button-column colorinput" placeholder="R" ng-model="firstColor.rv"
                                                       ng-class="{'alert-warning': invalidRGB(firstColor.rv)}" ng-change="updateColorInput(1, 'rv')"></input>
                                                 <input class="button-column colorinput" placeholder="G" ng-model="firstColor.gv"
@@ -88,7 +91,7 @@
                                                 <input class="button-column colorinput" placeholder="B" ng-model="firstColor.bv"
                                                       ng-class="{'alert-warning': invalidRGB(firstColor.bv)}" ng-change="updateColorInput(1, 'bv')"></input>
                                           </div>
-                                          <div class="button-row" data-toggle="tooltip" title="HEX">
+                                          <div class="button-row" ng-class="{'hide':RGB}" data-toggle="tooltip" title="HEX">
                                                 <input class="button-column colorinput" placeholder="HEX" ng-model="firstColor.hex"></input>
                                           </div>
                                     </div>
@@ -102,14 +105,14 @@
                         <span class="picker" id="secondPicker" style="left: {{secondColor.x}}px;top: {{secondColor.y}}px" ng-mousedown="onMouseDown('second', $event)" ng-class="{'hide': colorShown == 'one'}"></span>
                         <span class="picker" id="thirdPicker" style="left: {{thirdColor.x}}px;top: {{thirdColor.y}}px" ng-mousedown="onMouseDown('third', $event)" ng-class="{'hide': colorShown != 'three'}"></span>
 		    	</div>
-		    	<div class="button-column calc-wheel" style="flex-basis: 170%">
-		    		<canvas id="colorWheel" class="pointer-outer"  ng-mousemove="onMouseMove($event)"/>
+		    	<div class="button-column calc-wheel">
+		    		<canvas id="colorWheel" class="pointer-outer"  ng-mousemove="onMouseMove($event)"/>-->
 		    	</div>
-		        <div class="button-column" style="flex-basis: 100%" >
-					<div class="button-row" ng-repeat= "choice in choices">
-						<div class="calc-button" ng-repeat = "c in choice" ng-click = "chooseComposeType(c.value)">{{c.src}}</div>
-					</div>
-		        </div>
+                  <div class="button-column" >
+      			<div class="button-row" ng-repeat= "choice in choices">
+      				<div class="calc-button" ng-repeat = "c in choice" value="{{c.value}}" ng-click = "chooseComposeType($event, c.value)">{{c.src}}</div>
+      			</div>
+                  </div>
 		    </div>
 		</div>
 	</body>
