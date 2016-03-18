@@ -341,4 +341,19 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
         context.closePath();
         context.stroke();
     };
+
+    this.drawButtons = function() {
+        var btns = $(".calc-button");
+        for(var i = 0; i < btns.length; ++i) {
+            var cvs = btns[i];
+            var ctx = cvs.getContext('2d');
+            ctx.moveTo(10,30);
+            ctx.beginPath();
+            ctx.arc(30, 30, 20, 0, Math.PI/6, false);
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = 'white';
+            ctx.closePath();
+            ctx.stroke();
+        }
+    }
 });

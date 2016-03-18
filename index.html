@@ -18,8 +18,8 @@
                         <div class="toggleBtnGroup">
                               <label class="toggleBtn" ng-class="{'active':RGB}" ng-click="isRGB()"><input type="radio" name="nameType"/>RGB</label><label class="toggleBtn" ng-class="{'active':!RGB}" ng-click="isHEX()"><input type="radio" name="nameType"/>HEX</label>
                         </div>
-      			<div class="calType">{{composeType}}</div>
-                        <div class="button-row" style="width:50%;margin-left: 50%;">
+      			
+                        <div class="button-row" style="width:50%;margin-left: 50%;position:relative;">
       				<div class="color-block block-width-two">	
       					<a class="color-tag" id="mainColor" href style="background-color: {{mainColor.hex}}"><span class="badge">{{(mainColor.v * 100).toFixed(0)}}%</span>
       						<div class="slider"><input type="range" min="0" max="1" value="1" step="0.01" ng-model="mainColor.v" ng-mousedown="onRangeDown(0)" ng-mousemove = "onRangeMove()"/></div>
@@ -39,8 +39,10 @@
       					</div>
       					
       				</div>
+                              <div class="calType">{{composeType}}</div>
       			</div>
-      			
+      			<div class="button-row" style="flex:0.1">
+                        </div>
       			<div class="button-row">
       				<div class="color-block block-width-{{colorShown}}" ng-class="{'hide': colorShown != 'three'}">
       					<a class="color-tag" href href style="background-color: {{thirdColor.hex}}"><span class="badge">{{(thirdColor.v * 100).toFixed(0)}}%</span>
@@ -109,8 +111,8 @@
 		    		<canvas id="colorWheel" class="pointer-outer"  ng-mousemove="onMouseMove($event)"/>-->
 		    	</div>
                   <div class="button-column" >
-      			<div class="button-row" ng-repeat= "choice in choices">
-      				<div class="calc-button" ng-repeat = "c in choice" value="{{c.value}}" ng-click = "chooseComposeType($event, c.value)">{{c.src}}</div>
+      			<div class="button-column" ng-repeat= "choice in choices">
+      				<canvas class="calc-button" ng-repeat = "c in choice" value="{{c.value}}" ng-click = "chooseComposeType($event, c.value)">{{c.src}}</canvas>
       			</div>
                   </div>
 		    </div>

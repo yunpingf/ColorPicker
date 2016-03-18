@@ -126,7 +126,8 @@ input[type=radio] {
 }
 .calType {
   position: absolute;
-  top:15%;
+  bottom: 0;
+  left: -100%;
   min-height: 18px;
 }
 
@@ -156,14 +157,14 @@ input[type=radio] {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  flex: 1 1 100%;
+  flex: 1;
 }
 
 .button-column {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  flex: 1 1 100%;
+  flex: 1;
 }
 
 .calc-button {
@@ -178,6 +179,7 @@ input[type=radio] {
   box-shadow: inset 1px 1px 0 #636363, inset -1px -1px 0 #141414;
   text-shadow: 1px 1px #222;
   flex: 1 1 100%;
+  height:16.7%;
 }
 .calc-button:active, .calc-button.active {
   background: linear-gradient(#424242, #4B4B4B);
@@ -189,7 +191,7 @@ input[type=radio] {
   box-shadow: inset 1px 1px 0 #636363, inset -1px -1px 0 #141414;
 }
 
-canvas {
+canvas#colorWheel {
   flex: 1 1 100%;
   padding:0px;
   margin:0px;

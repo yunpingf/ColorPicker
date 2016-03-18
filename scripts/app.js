@@ -4,6 +4,7 @@ $(document).ready(function () {
     var service = injector.get('ColorWheelService');
     
     service.drawColorWheel();
+    service.drawButtons();
 });
 
 $(window).resize( function(){
