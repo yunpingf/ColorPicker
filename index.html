@@ -110,7 +110,7 @@
 		    	<div class="button-column calc-wheel">
 		    		<canvas id="colorWheel" class="pointer-outer"  ng-mousemove="onMouseMove($event)"/>-->
 		    	</div>
-                  <div class="button-column" >
+                  <div class="button-column" id="typeButtons">
       			<div class="button-column" ng-repeat= "choice in choices">
       				<canvas class="calc-button" ng-repeat = "c in choice" value="{{c.value}}" ng-click = "chooseComposeType($event, c.value)">{{c.src}}</canvas>
       			</div>

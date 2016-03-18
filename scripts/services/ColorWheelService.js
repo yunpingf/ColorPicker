@@ -1,6 +1,7 @@
 angular.module('ColorWheel').service('ColorWheelService', function() {
     var canvas = $("#colorWheel");
-    var context = canvas.get(0).getContext('2d');
+    var context = canvas[0].getContext('2d');
+    
     var composeType = "";
     var count = 0;
     var cache = {};
@@ -24,6 +25,15 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
         return color;
     };
 
+    this.initialCanvasSize = function() {
+        var w = $("#buttons").width();
+        var h = $("#buttons").height();
+
+        var wh = (w-h*1.1/6) > h? (w-h*1.1/6):h;
+        canvas[0].width = wh;
+        canvas[0].height = h;
+    }
+
     this.getMainColor = function(i, j, v) {
         var x = i - cache.centerX;
         var y = j - cache.centerY;
@@ -39,19 +49,24 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
         var max = Math.max(r, g, b);
         color.v = max.toFixed(2);
         var delta = max - min;
-        if (max != 0) {
-            color.s = delta / max;
-            color.r = color.rv / max;
-            color.g = color.gv / max;
-            color.b = color.bv / max;
-        }
-        else {
+        
+        if (max==0 || delta == 0){
             color.s = 0;
             color.h = 0;
             color.r = 0;
             color.g = 0;
             color.b = 0;
+            var pos = getCenterR();
+            color.x = pos['centerX'];
+            color.y = pos['centerY'];
+            color.hex = rgbToHex(color);
             return color;
+        }
+        else {
+            color.s = delta / max;
+            color.r = color.rv / max;
+            color.g = color.gv / max;
+            color.b = color.bv / max;
         }
         if (r == max)
             h = (g - b) / delta;
@@ -262,8 +277,8 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
     };
 
     function getCenterR () {
-        var height = document.getElementById("colorWheel").height;
-        var width = document.getElementById("colorWheel").width;
+        var height = canvas.height();
+        var width = canvas.width();
         
         var delta = height > width? (width/2) : (height/2);
         var centerX = width / 2;
@@ -302,9 +317,8 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
 
     this.drawColorWheel = function() {
         var pos = getCenterR();
-        var width = canvas.width();
-        var height = canvas.height();
-
+        var height = pos['height'];
+        var width = pos['width'];
         var delta = height > width? (width/2) : (height/2);
         var centerX = width / 2;
         var centerY = height / 2;
@@ -312,8 +326,6 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
         
         var leftX = centerX - r;
         var leftY = centerY + r + 10;
-        canvas.get(0).width = width;
-        canvas.get(0).height = height;
         var imageDataObj = context.createImageData(width, height);
         var imageData = imageDataObj.data;
         var k = 0; var h = 0; var s = 0; var g = 0;

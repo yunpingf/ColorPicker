@@ -19,6 +19,8 @@ body {
   position: absolute;
   padding: 2px;
   border-radius: 8px;
+  margin-left: -4px;
+  margin-top: -4px;
 }
 #colorpicker {
   border: 2px solid black;
