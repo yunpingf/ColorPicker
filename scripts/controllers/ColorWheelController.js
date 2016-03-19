@@ -4,17 +4,16 @@
 });*/
 angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'ColorWheelService', function($scope, ColorWheelService) {
     var canvas = $("#colorWheel");
-    ColorWheelService.initialCanvasSize();
+    ColorWheelService.initialSize();
     var canvasWidth = canvas.width();
     var canvasHeight = canvas.height();
     var leftOffset = canvas.offset().left;
     var topOffset = canvas.offset().top;
     $scope.mouseDown = {main:false, first:false, second:false, third:false};
     $scope.rangeDown = {main:false, first:false, second:false, third:false};
-    $scope.choices = [
-    	[{src: "1", value: constants.getMono()}, {src: "2", value: constants.getComple()}],
-    	[{src: "3", value: constants.getSplit()}, {src: "4", value: constants.getAnalog()}],
-    	[{src: "5", value: constants.getTriad()}, {src: "6", value: constants.getDouble()}]
+    $scope.choices = [{src: "1", value: constants.getMono()}, {src: "2", value: constants.getComple()},
+    	{src: "3", value: constants.getAnalog()}, {src: "4", value: constants.getSplit()},
+    	{src: "5", value: constants.getTriad()}, {src: "6", value: constants.getDouble()}
     ];
     $scope.composeType = "";
     var activeType = null;
@@ -46,7 +45,7 @@ angular.module('ColorWheel').controller('ColorWheelController', ['$scope', 'Colo
             activeType.removeClass("active");
             activeType = null;
         }
-        if (elem.attr("value") != tmp){
+        if (elem.attr("title") != tmp){
             elem.addClass("active");
             activeType = elem;
         }

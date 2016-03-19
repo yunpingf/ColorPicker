@@ -15,6 +15,9 @@ var constants = new (function() {
     this.getDouble = function() {return DOUBLE_COMPLEMENTARY};
     this.getAnalog = function() {return ANALOGOUS};
     this.getTriad = function() {return TRIAD};
+    this.getTypes = function() {
+        return [MONOCHROMATIC,COMPLEMENTARY,SPLIT_COMPLEMENTARY,DOUBLE_COMPLEMENTARY,ANALOGOUS,TRIAD];
+    }
 
     this.getOne = function() {return ONE};
     this.getTwo = function() {return TWO};

@@ -1,3 +1,14 @@
+/*$( function() {
+    var w = $("#buttons").width();
+    var h = $("#buttons").height();
+    var wh = (w-h*1.1/6) > h? (w-h*1.1/6):h;
+    var canvas = $("#colorWheel");
+    canvas.width(wh);
+    canvas.height(h);
+    var btns = $(".calc-button");
+    btns.width(w - wh);
+    btns.height(h/6);
+} );*/
 angular.module('ColorWheel').service('ColorWheelService', function() {
     var canvas = $("#colorWheel");
     var context = canvas[0].getContext('2d');
@@ -9,6 +20,16 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
 
     this.setComposeType = function(type) {
         composeType = type;
+    };
+    this.initialSize = function() {
+        var w = $("#buttons").width();
+        var h = $("#buttons").height();
+        var wh = (w-h*1.1/6) > h? (w-h*1.1/6):h;
+        canvas.width(wh);
+        canvas.height(h);
+        var btns = $(".calc-button");
+        btns.width(w - wh);
+        btns.height(h/6);
     };
 
     function justHelper(color, i, j, v){
@@ -24,15 +45,6 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
         color.hex = rgbToHex(color);
         return color;
     };
-
-    this.initialCanvasSize = function() {
-        var w = $("#buttons").width();
-        var h = $("#buttons").height();
-
-        var wh = (w-h*1.1/6) > h? (w-h*1.1/6):h;
-        canvas[0].width = wh;
-        canvas[0].height = h;
-    }
 
     this.getMainColor = function(i, j, v) {
         var x = i - cache.centerX;
@@ -316,6 +328,8 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
     }
 
     this.drawColorWheel = function() {
+        canvas[0].width = canvas.width();
+        canvas[0].height = canvas.height();
         var pos = getCenterR();
         var height = pos['height'];
         var width = pos['width'];
@@ -356,16 +370,57 @@ angular.module('ColorWheel').service('ColorWheelService', function() {
 
     this.drawButtons = function() {
         var btns = $(".calc-button");
-        for(var i = 0; i < btns.length; ++i) {
-            var cvs = btns[i];
-            var ctx = cvs.getContext('2d');
-            ctx.moveTo(10,30);
+        for (var i = 0; i < btns.length; ++i) {
+            btns[i].width = btns.width();
+            btns[i].height = btns.height();
+        }
+        var w = btns.width();
+        var h = btns.height();
+        var centerX = w/2;
+        var centerY = h/2;
+        var r = (w > h?h:w)*0.9/2;
+        function drawSector(ctx, from, to, isCounter) {
             ctx.beginPath();
-            ctx.arc(30, 30, 20, 0, Math.PI/6, false);
-            ctx.lineWidth = 2;
-            ctx.strokeStyle = 'white';
+            ctx.arc(centerX, centerY, r, from, to, isCounter);
+            ctx.lineTo(centerX, centerY);
             ctx.closePath();
             ctx.stroke();
         }
+        for(var i = 0; i < btns.length; ++i) {
+            var cvs = btns[i];
+            var ctx = cvs.getContext('2d');
+            ctx.lineWidth = 1.2;
+            ctx.strokeStyle = '#C0C0C0';
+
+            if (btns[i].title == constants.getMono()) {
+                drawSector(ctx,-Math.PI/2,-Math.PI*2/3,true);
+            }
+            else if (btns[i].title == constants.getComple()) {
+                drawSector(ctx,-Math.PI/2,-Math.PI*2/3, true);
+                drawSector(ctx,Math.PI/3,Math.PI/2,false);
+            }
+            else if (btns[i].title == constants.getSplit()){
+                drawSector(ctx, -Math.PI/3, -Math.PI/2, true)
+                drawSector(ctx, -Math.PI*2/3, -Math.PI*5/6, true)
+                drawSector(ctx,Math.PI/3,Math.PI/2,false);
+            }
+            else if (btns[i].title == constants.getDouble()){
+                drawSector(ctx, Math.PI/6, Math.PI/3, false);
+                drawSector(ctx, Math.PI/2, Math.PI*2/3, false);
+                drawSector(ctx, -Math.PI/3, -Math.PI/2, true);
+                drawSector(ctx, -Math.PI*2/3, -Math.PI*5/6, true);
+            }
+            else if (btns[i].title == constants.getAnalog()){
+                drawSector(ctx,-Math.PI/2,-Math.PI*2/3, true);
+                drawSector(ctx,-Math.PI*2/3,-Math.PI*5/6, true);
+                drawSector(ctx,-Math.PI*5/6,-Math.PI, true);
+            }
+            else if (btns[i].title == constants.getTriad()){
+                drawSector(ctx, -Math.PI/6, -Math.PI/3, true);
+                drawSector(ctx, -Math.PI*5/6, -Math.PI, true);
+                drawSector(ctx,Math.PI/3,Math.PI/2,false);
+            }
+        }
+
     }
 });

@@ -36,8 +36,8 @@ body {
   z-index: 2;
 }
 #thirdPicker {
-  border: 2px solid #868686;
-  z-index: 1;
+  border: 2px solid white;
+  z-index: 2;
 }
 ::-webkit-scrollbar {
   display: none;
@@ -182,6 +182,7 @@ input[type=radio] {
   text-shadow: 1px 1px #222;
   flex: 1 1 100%;
   height:16.7%;
+  padding:2px;
 }
 .calc-button:active, .calc-button.active {
   background: linear-gradient(#424242, #4B4B4B);
